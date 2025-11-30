@@ -1,0 +1,175 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-image: url('../museumwall.png');
+    background-size: cover;
+    background-position: center 52%;
+    background-repeat: repeat;
+    overflow: hidden;
+}
+
+.painting-container {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+img {
+    width: 60%;
+    height: auto;
+    object-fit: contain;
+    display: block;
+    transform: translateY(-5%);
+}
+.eye-container {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    width: 4px;
+    height: 4px;
+
+}
+
+#eye1middle {
+    top: 66.3%;
+    left: 50%;
+}
+
+#eye2middle {
+    top: 66.3%;
+    left: 49.0%;
+}
+
+#eye1painter {
+    top: 46.0%;
+    left: 34.3%;
+}
+
+#eye2painter {
+    top: 46.4%;
+    left: 35.4%;
+}
+
+.eye {
+    position: relative;
+    width: 4px;
+    height: 4px;
+    background: white;
+    border-radius: 50%;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+}
+
+.pupil {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    background: radial-gradient(circle at 30% 30%, #2a2a2a, #000000);
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transition: all 0.1s ease-out;
+}
+
+.pupil::after {
+    content: '';
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    background: black;
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.pupil::before {
+    content: '';
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    background: white;
+    border-radius: 50%;
+    top: 25%;
+    left: 30%;
+    z-index: 2;
+}
+
+.eyelid {
+    position: absolute;
+    width: 100%;
+    height: 0%;
+    background: #f5d5c8;
+    border-radius: 0 0 50% 50%;
+    top: 0;
+    left: 0;
+    transition: height 0.15s ease-in-out;
+    z-index: 10;
+}
+
+.eye.blinking .eyelid {
+    height: 100%;
+}
+
+.is-hidden {
+    visibility: hidden;
+}
+
+.video-wrapper {
+    position: fixed;
+    top: 51.5%;
+    left: 46%;
+    transform: translate(-50%, -50%);
+    width: 5vw;      
+    height: 7vw;
+    overflow: visible;
+    z-index: 100;
+}
+
+#videoElement {
+    width: 100%;
+    height: 100%;
+    transform: scaleX(-1);
+    filter: saturate(1.5) blur(0px);
+    transition: filter 0.3s ease;
+    mask: radial-gradient(circle at center, 
+        black 0%, 
+        black 11%,
+        rgba(0,0,0,0.95) 14%,
+        rgba(0,0,0,0.9) 17%,
+        rgba(0,0,0,0.85) 19%,
+        rgba(0,0,0,0.8) 21%,
+        rgba(0,0,0,0.7) 23%,
+        rgba(0,0,0,0.6) 25%,
+        rgba(0,0,0,0.5) 27%,
+        rgba(0,0,0,0.4) 29%,
+        rgba(0,0,0,0.3) 31%,
+        rgba(0,0,0,0.2) 33%,
+        rgba(0,0,0,0.1) 35%,
+        rgba(0,0,0,0.05) 37%,
+        transparent 40%);
+    -webkit-mask: radial-gradient(circle at center, 
+        black 0%, 
+        black 11%,
+        rgba(0,0,0,0.95) 14%,
+        rgba(0,0,0,0.9) 17%,
+        rgba(0,0,0,0.85) 19%,
+        rgba(0,0,0,0.8) 21%,
+        rgba(0,0,0,0.7) 23%,
+        rgba(0,0,0,0.6) 25%,
+        rgba(0,0,0,0.5) 27%,
+        rgba(0,0,0,0.4) 29%,
+        rgba(0,0,0,0.3) 31%,
+        rgba(0,0,0,0.2) 33%,
+        rgba(0,0,0,0.1) 35%,
+        rgba(0,0,0,0.05) 37%,
+        transparent 40%);
+}
+
+.video-wrapper::after {
+    display: none;
+}
+

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Main Page</title>
+    <style>
+        body {
+            background-image: url("static/museumwall.png");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            height: 100vh;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            padding: 20px;
+            overflow: hidden;
+        }
+        h1 {
+            color: white;
+            text-shadow: 2px 2px 4px #000000;
+            margin-bottom: 30px;
+        }
+        
+        .gallery-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 40px;
+            margin: 40px 0;
+            flex-wrap: wrap;
+        }
+        
+        .painting-frame {
+            background: linear-gradient(145deg, #8b7355, #6d5a42);
+            padding: 20px;
+            box-shadow: 
+                0 10px 30px rgba(0, 0, 0, 0.5),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2),
+                inset 0 -1px 0 rgba(0, 0, 0, 0.3);
+            border: 3px solid #4a3f2f;
+            position: relative;
+        }
+        
+        .painting-frame::before {
+            content: '';
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            right: 5px;
+            bottom: 5px;
+            border: 1px solid rgba(139, 115, 85, 0.5);
+            pointer-events: none;
+        }
+        
+        .painting-frame img {
+            display: block;
+            max-width: 300px;
+            max-height: 400px;
+            width: auto;
+            height: auto;
+            object-fit: contain;
+        }
+
+        .painting-link {
+            margin: 0;
+            padding: 0;
+            background: none;
+            border: none;
+            text-decoration: none;
+        }
+        
+        a {
+            color: white;
+            text-shadow: 2px 2px 4px #000000;
+            font-size: 1.5em;
+            text-decoration: none;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+        
+        a:hover {
+            background: rgba(0, 0, 0, 0.5);
+        }
+    </style>
+</head>
+<body style="opacity: 0;">
+    <div class="gallery-container">
+        <a href="Meninas.html" class="painting-link internal-link">
+            <div class="painting-frame">
+                <img src="static/MeninasMain.jpg" alt="Painting 1">
+            </div>
+        </a>
+        
+        <a href="Munroe.html" class="painting-link internal-link">
+            <div class="painting-frame">
+                <img src="static/Marylin.jpg" alt="Painting 2">
+            </div>
+        </a>
+        
+        <a href="Mona.html" class="painting-link internal-link">
+            <div class="painting-frame">
+                <img src="static/Monalisa.png" alt="Painting 3">
+            </div>
+        </a>
+    </div>
+    <div id="fade-overlay" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: black; opacity: 1; visibility: visible; transition: opacity 0.5s ease-in-out; z-index: 9999;"></div>
+
+    <script>
+        window.addEventListener('load', () => {
+            document.body.style.opacity = 1;
+            const overlay = document.getElementById('fade-overlay');
+            overlay.style.opacity = 0;
+            setTimeout(() => {
+                overlay.style.visibility = 'hidden';
+            }, 500);
+        });
+
+        document.querySelectorAll('a.internal-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const href = this.href;
+                const overlay = document.getElementById('fade-overlay');
+                overlay.style.visibility = 'visible';
+                overlay.style.opacity = 1;
+
+                setTimeout(() => {
+                    window.location.href = href;
+                }, 500);
+            });
+        });
+    </script>
+</body>
+</html>

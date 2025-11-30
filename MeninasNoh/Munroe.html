@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Mona Lisa Swirl</title>
+
+  <!-- GSAP + MotionPathPlugin -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/MotionPathPlugin.min.js"></script>
+
+  <style>
+    html, body {
+      margin: 0;
+      height: 100%;
+      background: #ffffff;
+      overflow: hidden;
+    }
+
+    body {
+      position: relative;
+      cursor: pointer;
+    }
+
+    /* base Mona Lisa at center */
+    #mona-base {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 200px;     /* adjust as you like */
+      height: auto;
+      display: block;
+      /* ensure the central image stays visually above clones */
+      z-index: 9999;
+    }
+  </style>
+</head>
+<body>
+    <a href="index.html" class="internal-link">
+        <div style="position: fixed; top: 20px; left: 20px; z-index: 10000; width: 50px; height: 50px;">
+            <img src="static/backbutton.png" alt="Back to Main Page" style="width: 100%; height: auto;">
+        </div>
+    </a>
+
+  <!-- central, “inexhaustible” Mona Lisa -->
+  <img id="mona-base" src="static/marilyn_monrow.jpg" alt="Mona Lisa">
+
+  <script>
+    gsap.registerPlugin(MotionPathPlugin);
+
+    const base = document.getElementById('mona-base');
+
+    // generate randomized CSS filter strings and optional blend modes
+    function randomVisuals() {
+      // ranges approximating exposure/vibrance via standard CSS filters
+      const brightness = gsap.utils.random(0.75, 1.35, 0.01);
+      const contrast = gsap.utils.random(0.8, 1.45, 0.01);
+      const saturate = gsap.utils.random(0.6, 1.9, 0.01);
+      const hue = gsap.utils.random(0, 360, 1);
+      const sepia = gsap.utils.random(0, 0.35, 0.01);
+      const grayscale = gsap.utils.random(0, 0.25, 0.01);
+      const blur = gsap.utils.random(0, 2, 0.1);
+
+      const parts = [
+        `brightness(${brightness})`,
+        `contrast(${contrast})`,
+        `saturate(${saturate})`,
+        `hue-rotate(${hue}deg)`,
+        `sepia(${sepia})`,
+        `grayscale(${grayscale})`,
+        `blur(${blur}px)`
+      ];
+
+      // randomly keep most of them but drop some for variation
+      const chosen = parts.filter(() => Math.random() > 0.25);
+      if (chosen.length === 0) chosen.push(`brightness(${gsap.utils.random(0.9,1.1,0.01)})`);
+
+      // occasional mix-blend-mode for richer layering (don't overuse)
+      const blendModes = ['normal','multiply','screen','overlay','darken','lighten','color-dodge','color-burn','hard-light','soft-light','difference','exclusion'];
+      const useBlend = Math.random() < 0.35; // ~35% of clones
+      const blend = useBlend ? gsap.utils.random(blendModes) : 'normal';
+
+      return { filter: chosen.join(' '), blend };
+    }
+
+    document.addEventListener('click', (e) => {
+      if (e.target.closest('.internal-link')) return;
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
+
+      // create a new Mona Lisa starting at the center
+      const clone = base.cloneNode(true);
+      clone.removeAttribute('id');      // keep only one element with id
+      clone.style.position = 'absolute';
+      clone.style.top = '50%';
+  clone.style.left = '50%';
+  // start slightly scaled so we can animate scale during the motion
+  clone.style.transform = 'translate(-50%, -50%) scale(0)';
+  // ensure transforms scale/rotate around the element center
+  clone.style.transformOrigin = '50% 50%';
+  // make sure clones sit below the central image
+  clone.style.zIndex = '1';
+      // performance hint: we'll animate transform + filter
+      clone.style.willChange = 'transform, filter';
+
+      // apply randomized visual effects (brightness/contrast/saturate/hue/sepia/etc.)
+      const visuals = randomVisuals();
+      clone.style.filter = visuals.filter;
+      if (visuals.blend && visuals.blend !== 'normal') {
+        clone.style.mixBlendMode = visuals.blend;
+      }
+
+      document.body.appendChild(clone);
+
+      // target position somewhere on the "wall"
+      const margin = 60;
+      const targetX = gsap.utils.random(margin, vw - margin);
+      const targetY = gsap.utils.random(margin, vh - margin);
+
+      // center position (start point)
+      const centerX = vw / 2;
+      const centerY = vh / 2;
+
+      const dx = targetX - centerX;
+      const dy = targetY - centerY;
+
+      // random control points to create a swirl-like path
+      const cp1 = {
+        x: gsap.utils.random(-200, 200),
+        y: gsap.utils.random(-300, -120)
+      };
+      const cp2 = {
+        x: gsap.utils.random(200, -200),
+        y: gsap.utils.random(100, 320)
+      };
+
+      // choose a random target scale for a more dynamic "wall" effect
+      const targetScale = gsap.utils.random(0.1, 0.15);
+
+      gsap.to(clone, {
+        duration: gsap.utils.random(1.2, 2.0),
+        ease: "power1.out",
+        motionPath: {
+          path: [
+            { x: 0,        y: 0 },
+            { x: cp1.x,    y: cp1.y },
+            { x: cp2.x,    y: cp2.y },
+            { x: dx,       y: dy }
+          ],
+          autoRotate: false
+        },
+        rotation: gsap.utils.random(-18, 18),
+        // animate scale to the chosen target so clones vary in size
+        scale: targetScale,
+        transformOrigin: '50% 50%'
+      });
+    });
+  </script>
+<div id="fade-overlay" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: black; opacity: 1; visibility: visible; transition: opacity 0.5s ease-in-out; z-index: 9999;"></div>
+
+    <script>
+        window.addEventListener('load', () => {
+            const overlay = document.getElementById('fade-overlay');
+            overlay.style.opacity = 0;
+            setTimeout(() => {
+                overlay.style.visibility = 'hidden';
+            }, 500); // Match transition duration
+        });
+        document.querySelectorAll('a.internal-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const href = this.href;
+                const overlay = document.getElementById('fade-overlay');
+                overlay.style.visibility = 'visible';
+                overlay.style.opacity = 1;
+
+                setTimeout(() => {
+                    window.location.href = href;
+                }, 500);
+            });
+        });
+    </script>
+</body>
+</html>
