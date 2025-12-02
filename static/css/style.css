@@ -18,12 +18,11 @@ body {
 }
 
 img {
-    width: 60%;
+    width: 100%;
     height: auto;
-    object-fit: contain;
     display: block;
-    transform: translateY(-5%);
 }
+
 .eye-container {
     position: absolute;
     transform: translate(-50%, -50%);
@@ -33,23 +32,23 @@ img {
 }
 
 #eye1middle {
-    top: 66.3%;
-    left: 50%;
+    top: 67.0%;
+    left: 49.9%;
 }
 
 #eye2middle {
-    top: 66.3%;
-    left: 49.0%;
+    top: 67.0%;
+    left: 48.5%;
 }
 
 #eye1painter {
-    top: 46.0%;
-    left: 34.3%;
+    top: 52.4%;
+    left: 25.5%;
 }
 
 #eye2painter {
-    top: 46.4%;
-    left: 35.4%;
+    top: 52.2%;
+    left: 23.8%;
 }
 
 .eye {
@@ -171,5 +170,11 @@ img {
 
 .video-wrapper::after {
     display: none;
+}
+
+.painting-wrapper {
+    position: relative;
+    width: 60%;
+    transform: translateY(-5%);
 }
 

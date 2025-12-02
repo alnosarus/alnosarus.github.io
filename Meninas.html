@@ -13,33 +13,37 @@
         </div>
     </a>
     <div class="painting-container" id="paintingContainer">
-        <img src="static/LasMeninas.png" 
-             alt="Las Meninas by Velázquez" id="painting">
-    </div>
-    <div class="eye-container" id="eye1middle">
-        <div class="eye">
-         <div class="pupil"></div>
-         <div class="eyelid"></div>
+        <div class="painting-wrapper">
+            <img src="static/LasMeninas.png" 
+                 alt="Las Meninas by Velázquez" id="painting">
+            
+            <div class="eye-container" id="eye1middle">
+                <div class="eye">
+                 <div class="pupil"></div>
+                 <div class="eyelid"></div>
+                </div>
+            </div>
+            <div class="eye-container" id="eye2middle">
+                <div class="eye">
+                 <div class="pupil"></div>
+                 <div class="eyelid"></div>
+                </div>
+            </div>
+            <div class="eye-container" id="eye1painter">
+                <div class="eye">
+                 <div class="pupil"></div>
+                 <div class="eyelid"></div>
+                </div>
+            </div>
+            <div class="eye-container" id="eye2painter">
+                <div class="eye">
+                 <div class="pupil"></div>
+                 <div class="eyelid"></div>
+                </div>
+            </div>
         </div>
     </div>
-    <div class="eye-container" id="eye2middle">
-        <div class="eye">
-         <div class="pupil"></div>
-         <div class="eyelid"></div>
-        </div>
-    </div>
-    <div class="eye-container" id="eye1painter">
-        <div class="eye">
-         <div class="pupil"></div>
-         <div class="eyelid"></div>
-        </div>
-    </div>
-    <div class="eye-container" id="eye2painter">
-        <div class="eye">
-         <div class="pupil"></div>
-         <div class="eyelid"></div>
-        </div>
-    </div>
+    
     <div class="container">
         <div class="video-wrapper">
             <video id="videoElement" autoplay playsinline></video>
@@ -56,7 +60,7 @@
             overlay.style.opacity = 0;
             setTimeout(() => {
                 overlay.style.visibility = 'hidden';
-            }, 500); // Match transition duration
+            }, 500);
         });
         document.querySelectorAll('a.internal-link').forEach(link => {
             link.addEventListener('click', function(e) {
